@@ -1,0 +1,84 @@
+<html>
+<head>
+<!-- for non-UI builds: -->
+<script src="https://ajax.googleapis.com/ajax/libs/shaka-player/3.2.0/shaka-player.compiled.js"></script>
+<!-- or, for UI builds: -->
+<script src="https://ajax.googleapis.com/ajax/libs/shaka-player/3.2.0/shaka-player.ui.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/shaka-player/3.2.0/controls.css">
+</head>
+<body>
+<center>   <div data-shaka-player-container style="max-width:40em"
+         data-shaka-player-cast-receiver-id="1BA79154">
+       <!-- The data-shaka-player tag will make the UI library use this video element.
+            If no video is provided, the UI will automatically make one inside the container div. -->
+      <video autoplay data-shaka-player id="video" style="width:100%;height:100%"></video>
+    </div></center>
+<script>
+
+const manifestUri =
+    'https://live-dash-cdn6-mp.cdn.viaplay.tv/73c2bd75301d4244beab9599e80f4d60/start/1691920780/end/1691960400/index.mpd?aws.manifestfilter=video_codec%3Ah264%3Bvideo_bitrate%3A0-5200000%3Bvideo_framerate%3A25-60%3Bvideo_height%3A1-721%3Baudio_codec%3AAACL%3Baudio_language%3Aswe&CMCD=mtp%3D4600%2Cot%3Dm%2Csf%3Dd%2Csid%3D%22cmGGnBv35BtQqYYUWIy3EIMc05chbZbKnRSUj-78EEQ%22';
+
+async function init() {
+  // When using the UI, the player is made automatically by the UI object.
+  const video = document.getElementById('video');
+  const ui = video['ui'];
+  const controls = ui.getControls();
+  const player = controls.getPlayer();
+
+player.configure({
+  drm: {
+    clearKeys: {"815107f663f65a63bfb18f562b0230e5":"2aef06cf574c2006f621c4a2d9d1dff7"
+"9df8ec5f86995102a6c9987d360b18c7":"bb525f095535fa1ef2fd42f3068afd56"
+"afde82ff19a15a0dbd8a1b8880feb403":"2eab45a7fcb96adf746a8e3b0f825b9d"
+"ffdaaf67e86859b8966f8c4203331c87":"a6a7ed355fbf5386f952d13229904691"}
+  }
+});
+
+  // Attach player and ui to the window to make it easy to access in the JS console.
+  window.player = player;
+  window.ui = ui;
+
+  // Listen for error events.
+  player.addEventListener('error', onPlayerErrorEvent);
+  controls.addEventListener('error', onUIErrorEvent);
+
+  // Try to load a manifest.
+  // This is an asynchronous process.
+  try {
+    await player.load(manifestUri);
+    // This runs if the asynchronous load is successful.
+    console.log('The video has now been loaded!');
+  } catch (error) {
+    onPlayerError(error);
+  }
+}
+
+function onPlayerErrorEvent(errorEvent) {
+  // Extract the shaka.util.Error object from the event.
+  onPlayerError(event.detail);
+}
+
+function onPlayerError(error) {
+  // Handle player error
+  console.error('Error code', error.code, 'object', error);
+}
+
+function onUIErrorEvent(errorEvent) {
+  // Extract the shaka.util.Error object from the event.
+  onPlayerError(event.detail);
+}
+
+function initFailed(errorEvent) {
+  // Handle the failure to load; errorEvent.detail.reasonCode has a
+  // shaka.ui.FailReasonCode describing why.
+  console.error('Unable to load the UI library!');
+}
+
+// Listen to the custom shaka-ui-loaded event, to wait until the UI is loaded.
+document.addEventListener('shaka-ui-loaded', init);
+// Listen to the custom shaka-ui-load-failed event, in case Shaka Player fails
+// to load (e.g. due to lack of browser support).
+document.addEventListener('shaka-ui-load-failed', initFailed);
+   </script>
+</body>
+</html>
