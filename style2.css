@@ -10,7 +10,7 @@ body {
   height: 100vh;
 }
 
-header {
+.centered-content {
   text-align: center;
 }
 
