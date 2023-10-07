@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #008000, black); /* Gradient zielono-czarny */
+    font-family: Arial, sans-serif;
+    color: #00FF00; /* Zielony kolor tekstu */
+}
+
+.shaka-player-container {
+    width: 100%;
+}
+
+.shaka-controls-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.shaka-button {
+    background-color: #008000;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.shaka-button:hover {
+    background-color: #006400;
+}
