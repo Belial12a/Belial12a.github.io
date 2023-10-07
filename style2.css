@@ -8,12 +8,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-}
-
-.centered-content {
-  text-align: center;
-}
-
+  
 header img {
   width: 40%;
 }
