@@ -1,9 +1,21 @@
 body {
-    margin: 0;
-    padding: 0;
-    background: black;
-    font-family: Arial, sans-serif;
-    color: #00FF00; /* Zielony kolor tekstu */
+  margin: 0;
+  padding: 0;
+  background: black;
+  font-family: Arial, sans-serif;
+  color: #00FF00; /* Zielony kolor tekstu */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+header {
+  text-align: center;
+}
+
+header img {
+  width: 40%;
 }
 
 .shaka-player-container {
